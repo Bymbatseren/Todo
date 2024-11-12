@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Manager</title>
+    <style>
+      #modal {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        background-color: #1a1a1a;
+        opacity: 0.1;
+        display: none;
+      }
+      .todo-item {
+        border-radius: 4px;
+        border: 2px solid black;
+        width: 10vw;
+        height: 2vw;
+        padding: 1vw;
+        background-color: #1a1a1a;
+        color: white;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        gap: 30px;
+      }
+      .body {
+        background-color: black;
+        margin-left: 10vw;
+        width: 390px;
+        height: 844px;
+        border-radius: 16px;
+      }
+
+      .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #addTask {
+        border-radius: 8px;
+        background-color: green;
+        color: white;
+        width: 110px;
+        height: 45px;
+      }
+      #deleteTask {
+        border-radius: 8px;
+        background-color: green;
+        color: white;
+        width: 110px;
+        height: 45px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="modal">
+      <div></div>
+    </div>
+    <button id="addTask" onclick="TaskAdd()">Add Task</button>
+
+    <div style="display: flex; margin-top: 100px">
+      <div class="body">
+        <div class="button">
+          <div
+            style="
+              background-color: white;
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              margin-bottom: 20px;
+              margin-right: 5px;
+            "
+          ></div>
+
+          <p style="color: white; font-size: 30px; margin-bottom: 50px">
+            To do
+          </p>
+        </div>
+
+        <div id="tasks" class="tasked"></div>
+      </div>
+      <div class="body">
+        <div class="button">
+          <div
+            style="
+              background-color: yellow;
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              margin-bottom: 20px;
+              margin-right: 5px;
+            "
+          ></div>
+
+          <p style="color: white; font-size: 30px; margin-bottom: 50px">
+            in progress
+          </p>
+        </div>
+
+        <div id="tasks" class="tasked"></div>
+      </div>
+      <div class="body">
+        <div class="button">
+          <div
+            style="
+              background-color: green;
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              margin-bottom: 20px;
+              margin-right: 5px;
+            "
+          ></div>
+
+          <p style="color: white; font-size: 30px; margin-bottom: 50px">Done</p>
+        </div>
+
+        <div id="tasks" class="tasked"></div>
+      </div>
+
+      <div class="body">
+        <div class="button">
+          <div
+            style="
+              background-color: Red;
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              margin-bottom: 20px;
+              margin-right: 5px;
+            "
+          ></div>
+
+          <p style="color: white; font-size: 30px; margin-bottom: 50px">
+            Blocked
+          </p>
+        </div>
+
+        <div id="tasks" class="tasked"></div>
+      </div>
+    </div>
+    <script src="todo.js"></script>
+  </body>
+</html>
