@@ -1,15 +1,14 @@
-let n = 5;
-let result = "";
-for (let i = 0; i < n; i++) {
-  let l = 0;
-  let o = 0;
-  for (let l = 0; l < n - i - 1; l++) {
-    result = result + " ";
-  }
-  while (o < i + 1) {
-    result = result + "* ";
-    o++;
-  }
-  result = result + "\n";
-}
-console.log(result);
+// const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// function power(num) {
+//   return num * num;
+// }
+// const newarrey = arr.map(power);
+// console.log(newarrey);
+
+// const phonenum = [88011648, 85502013, 88506930];
+// function newnum(num) {
+//   let i = (num - (num % 10000)) / 10000;
+//   return i;
+// }
+// const numbers = phonenum.map(newnum);
+// console.log(numbers);

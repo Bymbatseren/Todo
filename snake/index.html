@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snake Game</title>
+
+    <style>
+      #modal {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        background-color: #1a1a1a;
+        opacity: 0.8;
+        display: none;
+      }
+      .Board {
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-color: blanchedalmond;
+        margin: 50px auto;
+        position: relative;
+        overflow: hidden;
+      }
+      .Snake {
+        background-color: black;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body style="background-size: 100%; background-repeat: no-repeat">
+    <div id="modal">
+      <div
+        style="
+          width: 20vw;
+          height: 20vw;
+          background-color: #000000;
+          margin-left: 38vw;
+          margin-top: 16vw;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div>
+          <p style="font-size: 40px; color: #e8dfdf">LOOOOOSEEEER</p>
+          <button id="" onclick="Save()">Play again</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="board" class="Board"></div>
+
+    <button onclick="changeDirection('up')">Up</button>
+    <button onclick="changeDirection('down')">Down</button>
+    <button onclick="changeDirection('left')">Left</button>
+    <button onclick="changeDirection('right')">Right</button>
+
+    <button onclick="Start()">Start</button>
+    <button onclick="Restart()">Restart</button>
+    <button onclick="Stop()">Stop</button>
+
+    <script>
+      let headTop = 10;
+      let headLeft = 10;
+      let direction = "up";
+      let foodTop;
+      let foodLeft;
+      let config = {
+        size: 50,
+        width: 30,
+        height: 20,
+      };
+      const Modal = document.getElementById("modal");
+
+      let intervalId = null;
+      let tail = [
+        { x: 3, y: 4 },
+        { x: 3, y: 5 },
+        { x: 3, y: 6 },
+        { x: 3, y: 7 },
+      ];
+
+      const boardEl = document.getElementById("board");
+      boardEl.style.width = config.width * config.size + "px";
+      boardEl.style.height = config.height * config.size + "px";
+
+      function goUp() {
+        headTop--;
+        if (headTop < -1) {
+          gameOver();
+        }
+        render();
+      }
+      function goDown() {
+        headTop++;
+        if (headTop >= config.height + 1) {
+          gameOver();
+        }
+        render();
+      }
+      function goRight() {
+        headLeft++;
+        if (headLeft >= config.width + 1) {
+          gameOver();
+        }
+        render();
+      }
+      function goLeft() {
+        headLeft--;
+        if (headLeft < -1) {
+          gameOver();
+        }
+        render();
+      }
+
+      function gameOver() {
+        boardEl.style.opacity = "0";
+        Modal.style.display = "block";
+        Stop();
+      }
+
+      function Save() {
+        Restart();
+        Modal.style.display = "none";
+        boardEl.style.opacity = "1";
+      }
+
+      function Start() {
+        if (!intervalId) {
+          intervalId = setInterval(gameLoop, 150);
+        }
+      }
+      function Stop() {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      function Restart() {
+        headTop = 10;
+        headLeft = 10;
+        direction = "up";
+        tail = [
+          { x: 3, y: 4 },
+          { x: 3, y: 5 },
+          { x: 3, y: 6 },
+          { x: 3, y: 7 },
+        ];
+        generateFood();
+        render();
+      }
+
+      function generateFood() {
+        foodLeft = Math.floor(Math.random() * config.width);
+        foodTop = Math.floor(Math.random() * config.height);
+      }
+
+      function gameLoop() {
+        tail.push({ x: headLeft, y: headTop });
+        tail.shift();
+
+        switch (direction) {
+          case "up":
+            goUp();
+            break;
+          case "down":
+            goDown();
+            break;
+          case "left":
+            goLeft();
+            break;
+          case "right":
+            goRight();
+            break;
+        }
+
+        if (headTop === foodTop && headLeft === foodLeft) {
+          tail.push({ x: headLeft, y: headTop });
+          generateFood();
+        }
+        for (let i = 0; i < tail.length - 1; i++) {
+          if (headLeft == tail[i].x && headTop == tail[i].y) {
+            gameOver();
+          }
+        }
+      }
+
+      function changeDirection(newDirection) {
+        if (direction === "up" || direction === "down") {
+          if (newDirection === "right" || newDirection === "left") {
+            direction = newDirection;
+          }
+        } else if (direction === "right" || direction === "left") {
+          if (newDirection === "up" || newDirection === "down") {
+            direction = newDirection;
+          }
+        }
+      }
+
+      function Listener(event) {
+        const key = event.key;
+        switch (key) {
+          case "ArrowUp":
+            changeDirection("up");
+            break;
+          case "ArrowDown":
+            changeDirection("down");
+            break;
+          case "ArrowLeft":
+            changeDirection("left");
+            break;
+          case "ArrowRight":
+            changeDirection("right");
+            break;
+          case "Enter":
+            Start();
+            Save();
+            break;
+        }
+      }
+
+      document.addEventListener("keydown", Listener);
+
+      function render() {
+        let food = `
+          <div class="Snake" style="width:${config.size}px; height:${
+          config.size
+        }px; top:${foodTop * config.size}px; left:${
+          foodLeft * config.size
+        }px; background-color: red;"></div>`;
+
+        let snakeBodyHTML = "";
+        for (let i = 0; i < tail.length; i++) {
+          snakeBodyHTML += `
+            <div class="Snake" style="width:${config.size}px; height:${
+            config.size
+          }px; top:${tail[i].y * config.size}px; left:${
+            tail[i].x * config.size
+          }px"></div>`;
+        }
+
+        boardEl.innerHTML = `${snakeBodyHTML} ${food}`;
+      }
+      render();
+    </script>
+  </body>
+</html>
