@@ -13,7 +13,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <style>
-      #modal {
+
+      #modal, #EditModal {
         position: fixed;
         right: 0;
         bottom: 0;
@@ -23,30 +24,48 @@
         opacity: 0.8;
         display: none;
       }
-      #EditModal {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        top: 0;
-        left: 0;
-        background-color: #1a1a1a;
-        opacity: 0.8;
-        display: none;
+
+      
+      .modal-box {
+        width: 20vw;
+        height: 20vw;
+        background-color: #000000;
+        margin-left: 38vw;
+        margin-top: 16vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
       }
-      #Save {
+
+      
+      .button, #addTask, #deleteTask {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #Save, #Submit {
         width: 290px;
         height: 44px;
         border-radius: 4px 0px 0px 0px;
         background-color: #00a300;
-        margin-top: 50px;
+        margin-top: 20px;
+        color: white;
+        font-size: 16px;
       }
-      #Submit {
-        width: 290px;
-        height: 44px;
-        border-radius: 4px 0px 0px 0px;
-        background-color: #00a300;
-        margin-top: 50px;
+
+      
+      .body {
+        background-color: #101010;
+        margin-left: 5vw;
+        width: 390px;
+        height: 844px;
+        border-radius: 16px;
+        padding-top: 30px;
       }
+
+      
       .todo-item {
         border-radius: 4px;
         border: 2px solid black;
@@ -59,27 +78,22 @@
         justify-content: center;
         text-align: center;
         gap: 30px;
-      }
-      .body {
-        background-color: #101010;
-        margin-left: 5vw;
-        width: 390px;
-        height: 844px;
-        border-radius: 16px;
-      }
-      .widthButton {
-        background-color: #101010;
-        margin-left: 5vw;
-        width: 390px;
-        height: 844px;
-        border-radius: 16px;
+        margin-bottom: 20px;
       }
 
-      .button {
+      .widthButton {
+        margin-top: 20px;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: space-between;
+        width: 380px;
       }
+
+      .tasked {
+        height: 100%; 
+        padding-bottom: 10px; 
+      }
+
+     
       #addTask {
         border-radius: 8px;
         background-color: green;
@@ -88,165 +102,100 @@
         height: 45px;
         margin-left: 17vw;
       }
-      #deleteTask {
-        border-radius: 8px;
-        background-color: green;
+
+      .status-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        margin-right: 5px;
+      }
+
+     
+      p {
+        font-size: 30px;
+        margin-bottom: 50px;
         color: white;
-        width: 110px;
-        height: 45px;
       }
     </style>
   </head>
   <body style="background-color: rgb(35, 33, 33)">
+
+    
     <div id="modal">
-      <div
-        style="
-          width: 20vw;
-          height: 20vw;
-          background-color: #000000;
-          margin-left: 38vw;
-          margin-top: 16vw;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        "
-      >
-        <div>
-          <p style="font-size: 40px; color: #e8dfdf">Create New Task</p>
-          <input
-            value=""
-            type="text"
-            id="Input"
-            placeholder="Enter your new task's name"
-            style="width: 10vw; height: 2vw"
-          />
-          <div>
-            <select id="Select" style="margin-top: 20px">
-              <option value="To do">To do</option>
-              <option value="In progress">In progress</option>
-              <option value="Done">Done</option>
-              <option value="Blocked">Blocked</option>
-            </select>
-          </div>
-          <button id="Save" onclick="Save() ">Submit</button>
-        </div>
+      <div class="modal-box">
+        <p>Create New Task</p>
+        <input
+          value=""
+          type="text"
+          id="Input"
+          placeholder="Enter your new task's name"
+          style="width: 10vw; height: 2vw; margin-bottom: 20px"
+        />
+        <select id="Select" style="margin-bottom: 20px;">
+          <option value="To do">To do</option>
+          <option value="In progress">In progress</option>
+          <option value="Done">Done</option>
+          <option value="Blocked">Blocked</option>
+        </select>
+        <button id="Save" onclick="Save()">Submit</button>
       </div>
     </div>
+
+   
     <div id="EditModal">
-      <div
-        style="
-          width: 20vw;
-          height: 20vw;
-          background-color: #000000;
-          margin-left: 38vw;
-          margin-top: 16vw;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        "
-      >
-        <div>
-          <p style="font-size: 40px; color: #e8dfdf">Edit your task</p>
-          <div>
-            <select id="option" style="margin-top: 20px">
-              <option value="To do">To do</option>
-              <option value="In progress">In progress</option>
-              <option value="Done">Done</option>
-              <option value="Blocked">Blocked</option>
-            </select>
-          </div>
-          <button id="Submit" onclick="Submit() ">Submit</button>
-        </div>
+      <div class="modal-box">
+        <p>Edit your task</p>
+        <select id="option" style="margin-bottom: 20px;">
+          <option value="To do">To do</option>
+          <option value="In progress">In progress</option>
+          <option value="Done">Done</option>
+          <option value="Blocked">Blocked</option>
+        </select>
+        <button id="Submit" onclick="Submit()">Submit</button>
       </div>
     </div>
-    <div style="display: flex">
-      <div style="margin-top: 100px; display: flex">
-        <div class="body">
-          <div class="button">
-            <div
-              style="
-                background-color: white;
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                margin-bottom: 20px;
-                margin-right: 5px;
-              "
-            ></div>
 
-            <p style="color: white; font-size: 30px; margin-bottom: 50px">
-              To do
-            </p>
-          </div>
-
-          <div id="To-do" class="tasked"></div>
+    <div style="display: flex; justify-content: end;margin-top: 100px;">
+      <button id="addTask" onclick="TaskAdd();">Add Task</button>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 50px;">
+     
+      <div class="body">
+        <div class="button">
+          <div class="status-indicator" style="background-color: white;"></div>
+          <p>To do</p>
         </div>
-        <div class="body">
-          <div class="button">
-            <div
-              style="
-                background-color: yellow;
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                margin-bottom: 20px;
-                margin-right: 5px;
-              "
-            ></div>
-
-            <p style="color: white; font-size: 30px; margin-bottom: 50px">
-              in progress
-            </p>
-          </div>
-
-          <div id="in-progress" class="tasked"></div>
-        </div>
-        <div class="body">
-          <div class="button">
-            <div
-              style="
-                background-color: green;
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                margin-bottom: 20px;
-                margin-right: 5px;
-              "
-            ></div>
-
-            <p style="color: white; font-size: 30px; margin-bottom: 50px">
-              Done
-            </p>
-          </div>
-
-          <div id="Done" class="tasked"></div>
-        </div>
+        <div id="To-do" class="tasked"></div>
       </div>
-      <div style="margin-top: 50px">
-        <button id="addTask" onclick="TaskAdd();">Add Task</button>
 
-        <div class="widthButton">
-          <div class="button">
-            <div
-              style="
-                background-color: Red;
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                margin-bottom: 20px;
-                margin-right: 5px;
-              "
-            ></div>
-
-            <p style="color: white; font-size: 30px; margin-bottom: 50px">
-              Blocked
-            </p>
-          </div>
-
-          <div id="Blocked" class="tasked"></div>
+      
+      <div class="body">
+        <div class="button">
+          <div class="status-indicator" style="background-color: yellow;"></div>
+          <p>In Progress</p>
         </div>
+        <div id="in-progress" class="tasked"></div>
+      </div>
+
+      
+      <div class="body">
+        <div class="button">
+          <div class="status-indicator" style="background-color: green;"></div>
+          <p>Done</p>
+        </div>
+        <div id="Done" class="tasked"></div>
+      </div>
+
+      <div class="body">
+        <div class="button">
+          <div class="status-indicator" style="background-color: red;"></div>
+          <p>Blocked</p>
+        </div>
+        <div id="Blocked" class="tasked"></div>
       </div>
     </div>
+
 
     <script src="todo.js"></script>
   </body>
